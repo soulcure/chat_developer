@@ -1,6 +1,6 @@
-# flutter_app
+# cc_flutter_app
 
-A new Flutter chat application.
+A new Flutter project with CoffeeChat
 
 ## Getting Started
 
@@ -15,83 +15,83 @@ For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
 
-## Ä¿Â¼½á¹¹ËµÃ÷
+## ç›®å½•ç»“æ„è¯´æ˜
 
 - Flutter SDK
-    - /model£ºÊµÌåÀà
-    - /proto£ºprotobuf3Ğ­ÒéÎÄ¼ş
-    - im_client.dart£ºµÇÂ¼¡¢ºÍ·şÎñÆ÷Í¨ĞÅ£¨ÆäËûÒµÎñÄ£¿éµ÷ÓÃsend·¢ËÍÇëÇó£¬ÊÕµ½½á¹ûºó»Øµ÷£©
-    - im_message.dart£º·¢ËÍÏûÏ¢¡¢»ñÈ¡ÀúÊ·ÏûÏ¢
-    - im_session.dart£º»ñÈ¡»á»°ÁĞ±í
+    - /modelï¼šå®ä½“ç±»
+    - /protoï¼šprotobuf3åè®®æ–‡ä»¶
+    - im_client.dartï¼šç™»å½•ã€å’ŒæœåŠ¡å™¨é€šä¿¡ï¼ˆå…¶ä»–ä¸šåŠ¡æ¨¡å—è°ƒç”¨sendå‘é€è¯·æ±‚ï¼Œæ”¶åˆ°ç»“æœåå›è°ƒï¼‰
+    - im_message.dartï¼šå‘é€æ¶ˆæ¯ã€è·å–å†å²æ¶ˆæ¯
+    - im_session.dartï¼šè·å–ä¼šè¯åˆ—è¡¨
 - gui
-    - /model£ºÊµÌåÀà
-    - /widget£º¸÷ÖÖ×é¼ş
-    - page_chat.dart£ºÏûÏ¢tab
-    - page_home.dart£ºÖ÷Ò³
-    - page_me.dart£ºÎÒ
-    - page_message.dart£ºÁÄÌì½çÃæ
+    - /modelï¼šå®ä½“ç±»
+    - /widgetï¼šå„ç§ç»„ä»¶
+    - page_chat.dartï¼šæ¶ˆæ¯tab
+    - page_home.dartï¼šä¸»é¡µ
+    - page_me.dartï¼šæˆ‘
+    - page_message.dartï¼šèŠå¤©ç•Œé¢
 
-## ÊµÏÖµÄ¹¦ÄÜ
+## å®ç°çš„åŠŸèƒ½
 
-- [x] ÉÁÆÁÒ³
-- [x] µÇÂ¼
-    - [x] ¼Ç×¡ÃÜÂë
-    - [x] ×Ô¶¯ÖØÁ¬£¨¿ÉÄÜÓĞBUG£©
-    - [ ] ×Ô¶¯µÇÂ¼
-    - [ ] ÍøÂçÁ¬½Ó×´Ì¬ÌáÊ¾
-- [x] »á»°ÁĞ±í
-    - [x] ×îĞÂÏûÏ¢
-    - [x] Ô²½ÇÍ·Ïñ
-    - [x] Î´¶Á¼ÆÊıĞ¡ºìµã
-- [x] ÁÄÌì
-    - [x] ÊÕ·¢ÎÄ±¾
-    - [x] Ê§°ÜÖØ·¢
-    - [x] ÏÂÀ­²éÑ¯¼ÓÔØÀúÊ·ÏûÏ¢
+- [x] é—ªå±é¡µ
+- [x] ç™»å½•
+    - [x] è®°ä½å¯†ç 
+    - [x] è‡ªåŠ¨é‡è¿ï¼ˆå¯èƒ½æœ‰BUGï¼‰
+    - [ ] è‡ªåŠ¨ç™»å½•
+    - [ ] ç½‘ç»œè¿æ¥çŠ¶æ€æç¤º
+- [x] ä¼šè¯åˆ—è¡¨
+    - [x] æœ€æ–°æ¶ˆæ¯
+    - [x] åœ†è§’å¤´åƒ
+    - [x] æœªè¯»è®¡æ•°å°çº¢ç‚¹
+- [x] èŠå¤©
+    - [x] æ”¶å‘æ–‡æœ¬
+    - [x] å¤±è´¥é‡å‘
+    - [x] ä¸‹æ‹‰æŸ¥è¯¢åŠ è½½å†å²æ¶ˆæ¯
 - [ ] SDK
-    - [x] SQFilte»º´æ»á»°ÁĞ±í
+    - [x] SQFilteç¼“å­˜ä¼šè¯åˆ—è¡¨
 
-- [x] ÉÁÆÁÈ«ÆÁ
-- [ ] ËÑË÷
-- [x] ÁÄÌì¿òÎÒ-¶Ô·½ÑÕÉ«Çø·ÖÏÔÊ¾
-- [ ] êÇ³Æ
-- [ ] Í·Ïñ
-- [ ] ÁªÏµÈË¹¦ÄÜ
-- [ ] ×Ô¶¯µÇÂ¼
-- [ ] »á»°×Ô¶¯Ë¢ĞÂ£¨µÚÒ»´Î¡¢ĞÂ»á»°£©
-- [x] Çå³ıÎ´¶Á¼ÆÊı
-- [x] tab²»ºÃµã»÷
-- [x] ÏûÏ¢Ê±¼ä
-- [x] emotion´æ´¢ÂÒÂëÎÊÌâ½â¾ö
-- [ ] ÏûÏ¢±êÌâÀ¸ÏÔÊ¾Î´¶Á×ÜÊı
+- [x] é—ªå±å…¨å±
+- [ ] æœç´¢
+- [x] èŠå¤©æ¡†æˆ‘-å¯¹æ–¹é¢œè‰²åŒºåˆ†æ˜¾ç¤º
+- [ ] æ˜µç§°
+- [ ] å¤´åƒ
+- [ ] è”ç³»äººåŠŸèƒ½
+- [ ] è‡ªåŠ¨ç™»å½•
+- [ ] ä¼šè¯è‡ªåŠ¨åˆ·æ–°ï¼ˆç¬¬ä¸€æ¬¡ã€æ–°ä¼šè¯ï¼‰
+- [x] æ¸…é™¤æœªè¯»è®¡æ•°
+- [x] tabä¸å¥½ç‚¹å‡»
+- [x] æ¶ˆæ¯æ—¶é—´
+- [x] emotionå­˜å‚¨ä¹±ç é—®é¢˜è§£å†³
+- [ ] æ¶ˆæ¯æ ‡é¢˜æ æ˜¾ç¤ºæœªè¯»æ€»æ•°
 
-## Ô¤ÀÀ
-¾ßÌå¼û demo ÎÄ¼ş¼ĞÏÂµÄÍ¼Æ¬
+## é¢„è§ˆ
+å…·ä½“è§ demo æ–‡ä»¶å¤¹ä¸‹çš„å›¾ç‰‡
 
-## ÔËĞĞ
+## è¿è¡Œ
 
-¹«Íø£º106.14.172.35  
-im_gate:8000/tcp£¬µÇÂ¼¡¢ÏûÏ¢´¦ÀíµÈ  
-im_http:18080/http£¬ÓÃ»§×¢²á  
+å…¬ç½‘ï¼š106.14.172.35  
+im_gate:8000/tcpï¼Œç™»å½•ã€æ¶ˆæ¯å¤„ç†ç­‰  
+im_http:18080/httpï¼Œç”¨æˆ·æ³¨å†Œ  
 
-²âÊÔÕËºÅ£º1007¡¢1008  
-ÃÜÂë£º12345  
+æµ‹è¯•è´¦å·ï¼š1007ã€1008  
+å¯†ç ï¼š12345  
 
-## ³£¼ûÎÊÌâ
+## å¸¸è§é—®é¢˜
 
 ### Building for iOS Simulator, but the linked and embedded framework 'App.framework' was built for iOS. (in target 'Runner' from project 'Runner')
-1. É¾³ıios/flutter/app.framework
-2. ÖØĞÂ±àÒë
+1. åˆ é™¤ios/flutter/app.framework
+2. é‡æ–°ç¼–è¯‘
 
-### iosÍ¼±êÌæ»»
-1. macµçÄÔÏÂÔØ°²×°icon maker(Á´½Ó:https://pan.baidu.com/s/1j2WZSJ83RYu6hLnK4ICSYw  ÃÜÂë:1t9p)
-2. ´ò¿ªºó£¬Ñ¡ÔñÒ»ÕÅpngÍ¼±ê£¬È»ºó¹´Ñ¡Rounded Corner£¬µã»÷IOS¡£
-3. °ÑÉú³ÉµÄÄ¿Â¼IOS/Assets.xcassets/AppIcon.appiconset¸´ÖÆÌæ»»µ½ios/Runner/Assets.xcassets/AppIcon.appiconset
-4. ÖØĞÂ±àÒë¼´¿É
+### ioså›¾æ ‡æ›¿æ¢
+1. macç”µè„‘ä¸‹è½½å®‰è£…icon maker(é“¾æ¥:https://pan.baidu.com/s/1j2WZSJ83RYu6hLnK4ICSYw  å¯†ç :1t9p)
+2. æ‰“å¼€åï¼Œé€‰æ‹©ä¸€å¼ pngå›¾æ ‡ï¼Œç„¶åå‹¾é€‰Rounded Cornerï¼Œç‚¹å‡»IOSã€‚
+3. æŠŠç”Ÿæˆçš„ç›®å½•IOS/Assets.xcassets/AppIcon.appiconsetå¤åˆ¶æ›¿æ¢åˆ°ios/Runner/Assets.xcassets/AppIcon.appiconset
+4. é‡æ–°ç¼–è¯‘å³å¯
 
-### pb±¨´í
+### pbæŠ¥é”™
 
-1. ²éÕÒprotobuf×îĞÂµÄ¿ÉÓÃ°æ±¾¡£[https://github.com/dart-lang/protobuf](https://github.com/dart-lang/protobuf)
-2. ´ò¿ªpubspec.yaml£¬¸ü¸Äprotobuf²å¼şµÄ°æ±¾Îª×îĞÂµÄ¼´¿É¡£
+1. æŸ¥æ‰¾protobufæœ€æ–°çš„å¯ç”¨ç‰ˆæœ¬ã€‚[https://github.com/dart-lang/protobuf](https://github.com/dart-lang/protobuf)
+2. æ‰“å¼€pubspec.yamlï¼Œæ›´æ”¹protobufæ’ä»¶çš„ç‰ˆæœ¬ä¸ºæœ€æ–°çš„å³å¯ã€‚
 
-## ÁªÏµÎÒ
-email£ºxmcy0011@sina.com
+## è”ç³»æˆ‘
+emailï¼šxmcy0011@sina.com

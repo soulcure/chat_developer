@@ -26,18 +26,18 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^0.1.2 # package °üº¬ÁËÒ»Ğ© Cupertino widget ÓÃµ½µÄÍ¼±ê×ÊÔ´
-  protobuf: ^1.0.1     # protobuf dart Ö§³Ö
-  intl: ^0.15.7         # Ìá¹©ÁË¹ú¼Ê»¯ºÍ±¾µØ»¯µÄÄÜÁ¦
-  provider: ^2.0.0+1    # Ìá¹©ÁËÒ»¸öÓÃÀ´¿ç½çÃæ¹ÜÀí state µÄ¼òµ¥°ì·¨
-  shrine_images: ^1.0.0 # ÓĞÒ»Ğ©ĞèÒªÓÃµ½µÄ²úÆ·ºÍÉÌµêµÄÔªËØ
-  toast: ^0.1.4         # ÀàËÆ°²×¿µÄ²»×èÈûÌáÊ¾
-  uuid: 2.0.1           # msgIDÉú³É(Ê¹ÓÃuuid£¬È·±£ÏûÏ¢Î¨Ò»)
-  shared_preferences: ^0.5.2 # ±£´æ¼üÖµ¶ÔĞÅÏ¢
+  cupertino_icons: ^0.1.2 # package åŒ…å«äº†ä¸€äº› Cupertino widget ç”¨åˆ°çš„å›¾æ ‡èµ„æº
+  protobuf: ^1.0.1     # protobuf dart æ”¯æŒ
+  intl: ^0.15.7         # æä¾›äº†å›½é™…åŒ–å’Œæœ¬åœ°åŒ–çš„èƒ½åŠ›
+  provider: ^2.0.0+1    # æä¾›äº†ä¸€ä¸ªç”¨æ¥è·¨ç•Œé¢ç®¡ç† state çš„ç®€å•åŠæ³•
+  shrine_images: ^1.0.0 # æœ‰ä¸€äº›éœ€è¦ç”¨åˆ°çš„äº§å“å’Œå•†åº—çš„å…ƒç´ 
+  toast: ^0.1.4         # ç±»ä¼¼å®‰å“çš„ä¸é˜»å¡æç¤º
+  uuid: 2.0.1           # msgIDç”Ÿæˆ(ä½¿ç”¨uuidï¼Œç¡®ä¿æ¶ˆæ¯å”¯ä¸€)
+  shared_preferences: ^0.5.2 # ä¿å­˜é”®å€¼å¯¹ä¿¡æ¯
   sqflite: ^1.1.7+1     # SQLite plugin for Flutter. Supports both iOS and Android
   dio: ^3.0.7
-  agora_rtc_engine: 1.0.3     # ÉùÍøSDK
-  permission_handler: ^3.0.0  # È¨ÏŞ
+  agora_rtc_engine: 1.0.3     # å£°ç½‘SDK
+  permission_handler: ^3.0.0  # æƒé™
 
 dev_dependencies:
   flutter_test:

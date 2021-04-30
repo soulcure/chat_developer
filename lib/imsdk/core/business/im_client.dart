@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:cc_flutter_app/imsdk/proto/CIM.Message.pb.dart';
 import 'package:cc_flutter_app/imsdk/proto/CIM.Voip.pb.dart';
@@ -49,8 +50,7 @@ class IMClient {
   var reConnectInterval = 1;
 
   var requestMap = new Map<int, IMRequest>(); // 请求列表
-  var registerCallbackList = new List<int>();
-  var cache = new List<int>(); // socket receive cache
+  var cache = new Uint8List(1024 * 10); // socket receive cache
   var cacheOffset = 0; // socket receive cache offset
 
   var checkConnectTimeSpan = 1; // 重连间隔,指数退避算法,1s,2s,4s,8s

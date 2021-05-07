@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:buffer/buffer.dart';
 import 'package:protobuf/protobuf.dart';
 
 /// 序列号生成器 自增生成
@@ -68,49 +69,34 @@ class IMHeader {
   /// 从二进制数据中尝试反序列化Header
   /// [data] 二进制数据
   /// [IMHeader] 实例
-  bool readHeader(List<int> data) {
-    if (data.length < kHeaderLen) {
-      return false;
-    }
-
-    // get total len
-    int len = data[0];
-    for (int i = 1; i < 4; i++) {
-      len = (len << 8) + data[i];
-    }
-
-    if (len < data.length) {
-      return false;
-    }
-
-    List<int> buffer = new List.from(data, growable: false);
-    this.length = len;
-    this.version = (buffer[4] << 8) + buffer[5];
-    this.flag = (buffer[6] << 8) + buffer[7];
-    this.serviceId = (buffer[8] << 8) + buffer[9];
-    this.commandId = (buffer[10] << 8) + buffer[11];
-    this.seqNumber = (buffer[12] << 8) + buffer[13];
-    this.reversed = (buffer[14] << 8) + buffer[15];
+  bool readHeader(ByteDataReader reader) {
+    this.length = reader.readInt32();
+    this.version = reader.readInt16();
+    this.flag = reader.readInt16();
+    this.serviceId = reader.readInt16();
+    this.commandId = reader.readInt16();
+    this.seqNumber = reader.readInt16();
+    this.reversed = reader.readInt16();
     return true;
   }
 
-  List<int> getBuffer() {
+  Uint8List getBuffer() {
     Uint8List bodyData = message.writeToBuffer();
 
     //this.seqNumber = SeqGen.singleton.gen();
     this.length = kHeaderLen + bodyData.length;
     this.version = kDefaultProtocolVersion;
 
-    Uint8List head = Uint8List(kHeaderLen);
-    var headBuff = new ByteData.view(head.buffer);
-    headBuff.setInt32(0, length); // 总长度
-    headBuff.setInt16(4, version); // 协议版本号
-    headBuff.setInt16(6, flag); // 标志位
-    headBuff.setInt16(8, serviceId);
-    headBuff.setInt16(10, commandId); // 命令号
-    headBuff.setInt16(12, seqNumber); // 消息序号
-    headBuff.setInt16(14, reversed);
-    List<int> buffer = head + bodyData;
-    return buffer;
+    ByteDataWriter contentWrite = ByteDataWriter();
+    contentWrite.writeInt32(length); // 总长度
+    contentWrite.writeInt16(version); // 协议版本号
+    contentWrite.writeInt16(flag); // 标志位
+    contentWrite.writeInt16(serviceId);
+    contentWrite.writeInt16(commandId); // 命令号
+    contentWrite.writeInt16(seqNumber); // 消息序号
+    contentWrite.writeInt16(reversed);
+    contentWrite.write(bodyData);
+
+    return contentWrite.toBytes();
   }
 }

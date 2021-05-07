@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:buffer/buffer.dart';
 import 'package:cc_flutter_app/imsdk/proto/CIM.Message.pb.dart';
 import 'package:cc_flutter_app/imsdk/proto/CIM.Voip.pb.dart';
 import 'package:cc_flutter_app/imsdk/proto/im_header.dart';
@@ -50,8 +51,7 @@ class IMClient {
   var reConnectInterval = 1;
 
   var requestMap = new Map<int, IMRequest>(); // 请求列表
-  var registerCallbackList = new List<int>();
-  var cache = new List<int>(); // socket receive cache
+  List<int> cache = []; // socket receive cache
   var cacheOffset = 0; // socket receive cache offset
 
   var checkConnectTimeSpan = 1; // 重连间隔,指数退避算法,1s,2s,4s,8s
@@ -237,29 +237,32 @@ class IMClient {
         cache.addAll(data);
         cacheOffset += data.length;
       }
+      var temp = Uint8List.fromList(cache);
+      ByteDataReader reader = ByteDataReader();
+      //读入数据
+      reader.add(temp);
 
       // 粘包处理1
       var start = 0;
       var header = new IMHeader();
       while (true) {
-        var temp = cache.sublist(start);
-        if (!header.readHeader(temp)) {
-          if (start == 0) {
-            print("invalid IMHeader,start=" + start.toString() + ",cacheOffset=" + cacheOffset.toString());
-          }
-          start = cacheOffset; // delay clear
+        if (reader.remainingLength < kHeaderLen) {
           break;
         }
+        header.readHeader(reader);
 
         // 去掉头部
-        List<int> data = List.from(temp.sublist(kHeaderLen), growable: false);
+        Uint8List body = reader.read(header.length - kHeaderLen);
         // sync callback
-        _onHandle(header, data);
-        start += header.length;
+        _onHandle(header, body);
+
+        start += header.length; // delay clear
       }
 
       // delete read buffer
-      if (start == cacheOffset) {
+      if (start == 0) {
+        //do nothing
+      } else if (start == cacheOffset) {
         cache.clear();
         cacheOffset = 0;
       } else {
@@ -338,7 +341,7 @@ class IMClient {
   }
 
   // 消息总处理
-  void _onHandle(IMHeader header, List<int> data) {
+  void _onHandle(IMHeader header, Uint8List data) {
     if (header.commandId == CIMCmdID.kCIM_CID_LOGIN_HEARTBEAT.value) {
       print("onHandle heartbeat");
       return;

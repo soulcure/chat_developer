@@ -37,7 +37,7 @@ abstract class IAVChat {
 
 class IMClient {
   RawSocket socket; // socket
-  var handleMap = new Map<int, Function(IMHeader header, Uint8List data)>(); // 消息驱动表
+  var handleMap = new Map<int, Function(IMHeader header, List<int> data)>(); // 消息驱动表
 
   var msgService = new Map<String, IMessage>(); // 消息处理
   var voipService = new Map<String, IAVChat>(); // VOIP信令
@@ -50,7 +50,8 @@ class IMClient {
   var reConnectInterval = 1;
 
   var requestMap = new Map<int, IMRequest>(); // 请求列表
-  var cache = new Uint8List(1024 * 10); // socket receive cache
+  var registerCallbackList = new List<int>();
+  var cache = new List<int>(); // socket receive cache
   var cacheOffset = 0; // socket receive cache offset
 
   var checkConnectTimeSpan = 1; // 重连间隔,指数退避算法,1s,2s,4s,8s
@@ -78,18 +79,18 @@ class IMClient {
     _initHandleMap();
 
     // send heartbeat
-    Timer.periodic(Duration(seconds: 15), (timer) {
+    /*Timer.periodic(Duration(seconds: 15), (timer) {
       if (isLogin) {
         var heartBeat = new CIMHeartBeat();
         send(CIMCmdID.kCIM_CID_LOGIN_HEARTBEAT.value, heartBeat);
       }
-    });
+    });*/
 
     // timeout
-    Timer.periodic(Duration(seconds: 1), (timer) {
+    /*Timer.periodic(Duration(seconds: 1), (timer) {
       _checkRequestTimeout();
       _reConnect(timer.tick);
-    });
+    });*/
   }
 
   // 初始化消息驱动表
@@ -251,7 +252,7 @@ class IMClient {
         }
 
         // 去掉头部
-        Uint8List data = List.from(temp.sublist(kHeaderLen), growable: false);
+        List<int> data = List.from(temp.sublist(kHeaderLen), growable: false);
         // sync callback
         _onHandle(header, data);
         start += header.length;
@@ -337,14 +338,14 @@ class IMClient {
   }
 
   // 消息总处理
-  void _onHandle(IMHeader header, Uint8List data) {
+  void _onHandle(IMHeader header, List<int> data) {
     if (header.commandId == CIMCmdID.kCIM_CID_LOGIN_HEARTBEAT.value) {
       print("onHandle heartbeat");
       return;
     }
 
     if (this.handleMap.containsKey(header.commandId)) {
-      var f = this.handleMap[header.commandId];
+      Function(IMHeader, List<int>) f = this.handleMap[header.commandId];
       f(header, data);
     } else {
       print("unknown message,cmdId:${header.commandId}");
@@ -352,7 +353,7 @@ class IMClient {
   }
 
   // 认证消息处理
-  void _handleAuthRsp(IMHeader header, Uint8List data) {
+  void _handleAuthRsp(IMHeader header, List<int> data) {
     var rsp = CIMAuthTokenRsp.fromBuffer(data);
     print("_handleAuthRsp result:${rsp.resultCode},desc:${rsp.resultString}");
 
@@ -365,7 +366,7 @@ class IMClient {
     }
   }
 
-  void _handleRecentSessionList(IMHeader header, Uint8List data) {
+  void _handleRecentSessionList(IMHeader header, List<int> data) {
     var rsp = CIMRecentContactSessionRsp.fromBuffer(data);
     print("_handleRecentSessionList count:${rsp.contactSessionList.length},"
         "unreadCount:${rsp.unreadCounts}");
@@ -379,7 +380,7 @@ class IMClient {
     }
   }
 
-  void _handleGetMsgList(IMHeader header, Uint8List data) {
+  void _handleGetMsgList(IMHeader header, List<int> data) {
     var rsp = CIMGetMsgListRsp.fromBuffer(data);
     print("_handleGetMsgList count:${rsp.msgList.length}");
 
@@ -392,7 +393,7 @@ class IMClient {
     }
   }
 
-  void _handleMsgData(IMHeader header, Uint8List data) {
+  void _handleMsgData(IMHeader header, List<int> data) {
     var msg = CIMMsgData.fromBuffer(data);
     print("_handleMsgData fromId=${msg.fromUserId},toId=${msg.toSessionId},"
         "msgType=${msg.msgType},clientMsgId=${msg.clientMsgId},serverMsgId=${msg.serverMsgId}"
@@ -411,7 +412,7 @@ class IMClient {
     });
   }
 
-  void _handleMsgDataAck(IMHeader header, Uint8List data) {
+  void _handleMsgDataAck(IMHeader header, List<int> data) {
     var ack = CIMMsgDataAck.fromBuffer(data);
     print("_handleMsgDataAck userId=${ack.fromUserId},clientMsgId=${ack.clientMsgId},serverMsgId=${ack.serverMsgId},"
         "sessionId=${ack.toSessionId}");
@@ -422,7 +423,7 @@ class IMClient {
     });
   }
 
-  void _handleMsgReadNotify(IMHeader header, Uint8List data) {
+  void _handleMsgReadNotify(IMHeader header, List<int> data) {
     var notify = CIMMsgDataReadNotify.fromBuffer(data);
     print("_handleMsgReadNotify userId=${notify.userId},sessionId=${notify.sessionId},msgId=${notify.msgId}");
 
@@ -433,7 +434,7 @@ class IMClient {
   }
 
   // VOIP
-  void _handleInviteReq(IMHeader header, Uint8List data) {
+  void _handleInviteReq(IMHeader header, List<int> data) {
     var req = CIMVoipInviteReq.fromBuffer(data);
     print("_handleInviteReq creator_user_id:${req.creatorUserId},invite_user=${req.inviteUserList[0]}");
 
@@ -443,7 +444,7 @@ class IMClient {
     });
   }
 
-  void _handleInviteReply(IMHeader header, Uint8List data) {
+  void _handleInviteReply(IMHeader header, List<int> data) {
     var req = CIMVoipInviteReply.fromBuffer(data);
     print("_handleInviteReply reply_user_id:${req.userId},status:${req.rspCode.value}");
 
@@ -453,7 +454,7 @@ class IMClient {
     });
   }
 
-  void _handleInviteReplyAck(IMHeader header, Uint8List data) {
+  void _handleInviteReplyAck(IMHeader header, List<int> data) {
     var req = CIMVoipInviteReplyAck.fromBuffer(data);
     print("_handleInviteReplyAck channel_name=${req.channelInfo.channelName}");
 
@@ -463,7 +464,7 @@ class IMClient {
     });
   }
 
-  void _handleVOIPHeartbeat(IMHeader header, Uint8List data) {
+  void _handleVOIPHeartbeat(IMHeader header, List<int> data) {
     var req = CIMVoipHeartbeat.fromBuffer(data);
     print("_handleVOIPHeartbeat time=${DateTime.now().toString()}");
 
@@ -473,7 +474,7 @@ class IMClient {
     });
   }
 
-  void _handleVOIPByeRsp(IMHeader header, Uint8List data) {
+  void _handleVOIPByeRsp(IMHeader header, List<int> data) {
     var rsp = CIMVoipByeRsp.fromBuffer(data);
     print("_handleVOIPByeRsp error_code:${rsp.errorCode.value}");
 
@@ -483,7 +484,7 @@ class IMClient {
     });
   }
 
-  void _handleVOIPByeNotify(IMHeader header, Uint8List data) {
+  void _handleVOIPByeNotify(IMHeader header, List<int> data) {
     var rsp = CIMVoipByeNotify.fromBuffer(data);
     print("_handleVOIPByeRsp user_id:${rsp.userId},bye_reason:${rsp.byeReason}");
 
